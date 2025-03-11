@@ -1,0 +1,20 @@
+FROM vault:latest
+
+# Environment variables for Vault
+ENV VAULT_ADDR=http://0.0.0.0:8200 \
+    VAULT_API_ADDR=http://0.0.0.0:8200 \
+    VAULT_DEV_ROOT_TOKEN_ID=ft_transcendence_root_token
+
+# Copy Vault configuration
+COPY ../vault/config.hcl /vault/config/config.hcl
+
+# Expose Vault port
+EXPOSE 8200
+
+# Use custom entrypoint script if needed
+# COPY ../vault/entrypoint.sh /usr/local/bin/entrypoint.sh
+# RUN chmod +x /usr/local/bin/entrypoint.sh
+# ENTRYPOINT ["entrypoint.sh"]
+
+# Start Vault server
+CMD ["server", "-config=/vault/config/config.hcl"]

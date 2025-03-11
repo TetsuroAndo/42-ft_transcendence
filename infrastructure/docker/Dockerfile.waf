@@ -1,0 +1,18 @@
+FROM owasp/modsecurity-crs:apache
+
+# Copy ModSecurity configuration
+COPY ../waf/modsecurity.conf /etc/modsecurity/modsecurity.conf
+
+# Copy custom rules (if any)
+COPY ../waf/rules/ /etc/modsecurity/rules/
+
+# Environment variables for ModSecurity
+ENV PARANOIA=1 \
+    ANOMALY_INBOUND=5 \
+    ANOMALY_OUTBOUND=4
+
+# Expose ports
+EXPOSE 80 443
+
+# Start Apache with ModSecurity
+CMD ["apachectl", "-D", "FOREGROUND"]
