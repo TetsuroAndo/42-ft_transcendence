@@ -3,9 +3,15 @@ import cors from '@fastify/cors';
 import jwt from '@fastify/jwt';
 import swagger from '@fastify/swagger';
 import { fastifyConfig, serverConfig, jwtConfig } from './config/fastify.config';
+import dbPlugin from './plugins/db';
+import dbInitPlugin from './plugins/db-init';
 
 // Fastifyインスタンスの作成
 const server: FastifyInstance = Fastify(fastifyConfig);
+
+// SQLiteデータベースプラグインの登録
+server.register(dbPlugin);
+server.register(dbInitPlugin);
 
 // CORSの設定
 server.register(cors, {
